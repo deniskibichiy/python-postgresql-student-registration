@@ -1,11 +1,16 @@
-def getStudents(conn):
-    with conn.cursor() as cur:
-        cur.execute("SELECT * FROM students")
-        return cur.fetchall()
+from db_connection import getConnection
 
-def add_student(conn, name, email):
+def getStudents():
+    with getConnection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM student")
+            return cur.fetchall()
+
+def add_student(conn, name, course, email):
     with conn.cursor() as cur:
         cur.execute(
-            "INSERT INTO students (name, email) VALUES (%s, %s)",
-            (name, email)
+            """
+            INSERT INTO student(student_name, email, course) VALUES (%s, %s, %s)
+            """,
+            (name, course, email)
         )

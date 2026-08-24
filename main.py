@@ -8,29 +8,23 @@ from db_connection import getConnection
 from students import getStudents, add_student
 
 
-def validate_student(name, age, course, email):
-    return validate_name(name) and validate_email(email) and validate_course(course) and validate_age(age)
+def validate_student(name, course, email):
+    return validate_name(name) and validate_email(email) and validate_course(course)
 
-
-with getConnection() as conn:
-    add_student(conn, "Denis","denismutai5@gmail.com")
 def createTable():
-    with conn.cursor() as cur:
-        cur.execute( "CREATE TABLE student(student_id serial primary key, student_name VARCHAR(40), course VARCHAR(40), email VARCHAR(40));"
-        )
-        print("Table created successfully")
+    with getConnection() as conn:
+        with conn.cursor() as cur:
+            cur.execute( "CREATE TABLE IF NOT EXISTS student(student_id SERIAL primary key, student_name VARCHAR(40), course VARCHAR(40), email VARCHAR(40));"
+            )
+            print("Table created successfully")
 
 
 
-def createStudent():
-    with conn.cursor() as cur:
+def createStudent(name, course, email):
+    validate_student(name, course, email)
+    with getConnection() as conn:
+        add_student(conn,name,course, email)
 
-        cur.execute(
-            "INSERT INTO test(num, data) VALUES (%s, %s)",
-            (101, "abc'def"))
-
-        cur.execute("SELECT * FROM test")
-
-    print(cur.fetchone())
-
-createTable();
+createTable()
+createStudent("Denis","denismutai5@gmail.com", "Computer Science")
+print(getStudents())
