@@ -4,7 +4,7 @@ def getStudents(conn):
         return cur.fetchall()
 
 def add_student(conn, name, email):
-    with conn.cursor as cur:
+    with conn.cursor() as cur:
         cur.execute(
             "INSERT INTO students (name, email) VALUES (%s, %s)",
             (name, email)
