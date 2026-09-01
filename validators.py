@@ -1,8 +1,9 @@
 def validate_name(name):
-    return True
-
+    """Validate that the name contains only letters and spaces."""
+    return isinstance(name, str) and len(name.strip()) >= 2 and name.replace(" ", "").isalpha()
 def validate_course(course):
-    return True
+    """Validate that a course has at least 2 characters."""
+    return isinstance(course, str) and len(course.strip()) >= 2
 
 def validate_email(email):
     return True
